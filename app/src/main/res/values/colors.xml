@@ -1,0 +1,5 @@
+<resources>
+    <color name="colorPrimary">#FF6200EE</color> <!-- 예시: 주색 -->
+    <color name="colorPrimaryDark">#FF3700B3</color> <!-- 예시: 주색의 어두운 버전 -->
+    <color name="colorAccent">#FF018786</color> <!-- 예시: 강조색 -->
+</resources>
