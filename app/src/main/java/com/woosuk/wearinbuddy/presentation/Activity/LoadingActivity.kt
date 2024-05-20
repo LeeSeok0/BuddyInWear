@@ -1,4 +1,4 @@
-package com.woosuk.wearinbuddy.presentation
+package com.woosuk.wearinbuddy.presentation.Activity
 
 import android.os.Bundle
 import android.content.Intent

@@ -14,7 +14,7 @@
         android:theme="@android:style/Theme.DeviceDefault">
 
         <activity
-            android:name=".presentation.LoadingActivity"
+            android:name=".presentation.Activity.LoadingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,16 +23,21 @@
         </activity>
 
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.Activity.MainActivity"
             android:exported="true" />
 
         <activity
-            android:name=".presentation.DepressedActivity"
+            android:name=".presentation.Activity.DepressedActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".presentation.SleepActivity"
+            android:name=".presentation.Activity.SleepActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".presentation.Activity.InputActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
