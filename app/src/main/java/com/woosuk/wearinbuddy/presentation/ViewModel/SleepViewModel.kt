@@ -1,34 +1,31 @@
-package com.woosuk.wearinbuddy.presentation.ViewModel
-
-import android.app.Application
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.State
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woosuk.wearinbuddy.presentation.ApiService
+import com.woosuk.wearinbuddy.presentation.RetrofitInstance
 import com.woosuk.wearinbuddy.presentation.SleepData
+import com.woosuk.wearinbuddy.presentation.SleepRequest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.await
 import java.time.LocalTime
 
-class SleepViewModel(application: Application) : AndroidViewModel(application) {
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("https://your-api-base-url.com/") // Replace with your API base URL
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+class SleepViewModel : ViewModel() {
 
-    private val apiService = retrofit.create(ApiService::class.java)
+    private val _sleepData = MutableStateFlow(SleepData(0, 0.0, LocalTime.MIN, LocalTime.MIN))
+    val sleepData: StateFlow<SleepData> = _sleepData
 
-    private val _sleepData = mutableStateOf(SleepData("0", LocalTime.MIDNIGHT, LocalTime.MIDNIGHT, 0))
-    val sleepData: State<SleepData> get() = _sleepData
-
-    fun fetchSleepData(username: String) {
+    fun fetchSleepData(userId: Int) {
         viewModelScope.launch {
             try {
-                val response = apiService.getSleepData(username)
+                val response = RetrofitInstance.api.getSleepData(SleepRequest(userId)).await()
                 if (response.isNotEmpty()) {
-                    _sleepData.value = response[0].toSleepData() // Assuming we take the first record
+                    val sleepResponse = response[0]
+                    _sleepData.value = SleepData(
+                        sleepResponse.id,
+                        sleepResponse.sleep_duration,
+                        sleepResponse.sleep_bedtime_start,
+                        sleepResponse.sleep_bedtime_end
+                    )
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -1,9 +1,12 @@
 package com.woosuk.wearinbuddy.presentation
 
+import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.POST
-import retrofit2.http.Query
+
+data class IdRequest(val id: Int)
 
 interface ApiService {
-    @POST("sleep")
-    suspend fun getSleepData(@Query("username") username: String): List<SleepDataResponse>
+    @POST("/sleep")
+    fun getSleepData(@Body request: SleepRequest): Call<List<SleepResponse>>
 }

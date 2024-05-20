@@ -1,13 +1,16 @@
 package com.woosuk.wearinbuddy.presentation.Activity
 
+import SleepViewModel
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
-import com.woosuk.wearinbuddy.presentation.ViewModel.SleepViewModel
+import java.time.LocalTime
 
 class SleepActivity : ComponentActivity() {
 
@@ -28,10 +31,13 @@ class SleepActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("user_input", null)
+        val userId = sharedPreferences.getInt("user_id", -1)
 
-        username?.let {
-            sleepViewModel.fetchSleepData(it)
+        if (userId != -1) {
+            Log.d("SleepActivity", "Fetching sleep data for user ID: $userId")
+            sleepViewModel.fetchSleepData(userId)
+        } else {
+            Log.e("SleepActivity", "User ID not found in SharedPreferences")
         }
 
         setContent {
@@ -50,7 +56,9 @@ class SleepActivity : ComponentActivity() {
 
 @Composable
 fun SleepScreen(viewModel: SleepViewModel) {
-    val sleepData by viewModel.sleepData
+    val sleepData by viewModel.sleepData.collectAsState()
+
+    Log.d("SleepScreen", "Sleep data: $sleepData")
 
     Box(
         modifier = Modifier
@@ -59,8 +67,8 @@ fun SleepScreen(viewModel: SleepViewModel) {
         contentAlignment = Alignment.Center
     ) {
         CircularProgress(
-            sleepStartTime = sleepData.sleepStartTime,
-            sleepEndTime = sleepData.sleepEndTime,
+            sleepStartTime = sleepData.sleepBedtimeStart,
+            sleepEndTime = sleepData.sleepBedtimeEnd,
             modifier = Modifier.size(200.dp),
             strokeWidth = 11f,
             color = Color.White
@@ -89,22 +97,21 @@ fun SleepScreen(viewModel: SleepViewModel) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "수면 시작 시간: ${sleepData.sleepStartTime}",
+            text = "수면 시작 시간: ${sleepData.sleepBedtimeStart}",
             fontSize = 10.sp,
             color = Color.Gray,
         )
         Text(
-            text = "수면 종료 시간: ${sleepData.sleepEndTime}",
+            text = "수면 종료 시간: ${sleepData.sleepBedtimeEnd}",
             fontSize = 10.sp,
             color = Color.Gray,
         )
     }
 }
-
 @Composable
 fun CircularProgress(
-    sleepStartTime: java.time.LocalTime,
-    sleepEndTime: java.time.LocalTime,
+    sleepStartTime: LocalTime,
+    sleepEndTime: LocalTime,
     modifier: Modifier = Modifier,
     color: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.White,
     strokeWidth: Float = 8f
@@ -114,12 +121,8 @@ fun CircularProgress(
         val centerX = size.width / 2
         val centerY = size.height / 2
 
-        val formatter = java.time.format.DateTimeFormatter.ofPattern("HH:mm")
-        val startTime = java.time.LocalTime.parse(sleepStartTime.toString(), formatter)
-        val endTime = java.time.LocalTime.parse(sleepEndTime.toString(), formatter)
-
-        val startAngle = (startTime.toSecondOfDay() / 86400f) * 360 - 90
-        val endAngle = (endTime.toSecondOfDay() / 86400f) * 360 - 90
+        val startAngle = (sleepStartTime.toSecondOfDay() / 86400f) * 360 - 90
+        val endAngle = (sleepEndTime.toSecondOfDay() / 86400f) * 360 - 90
         val sweepAngle = if (endAngle >= startAngle) endAngle - startAngle else 360 - (startAngle - endAngle)
 
         drawArc(
@@ -131,3 +134,4 @@ fun CircularProgress(
         )
     }
 }
+

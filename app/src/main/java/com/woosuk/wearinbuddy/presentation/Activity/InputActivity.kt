@@ -1,5 +1,6 @@
 package com.woosuk.wearinbuddy.presentation.Activity
 
+import SleepViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -25,7 +26,6 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
-import com.woosuk.wearinbuddy.presentation.ViewModel.SleepViewModel
 
 class InputActivity : ComponentActivity() {
 
@@ -104,13 +104,18 @@ fun InputScreen(sleepViewModel: SleepViewModel) {
         Spacer(modifier = Modifier.height(8.dp)) // 텍스트 필드와 버튼 사이의 간격 조정
         Button(
             onClick = {
-                with(sharedPreferences.edit()) {
-                    putString("user_input", input)
-                    apply()
+                val userId = input.toIntOrNull()
+                if (userId != null) {
+                    with(sharedPreferences.edit()) {
+                        putInt("user_id", userId)
+                        apply()
+                    }
+                    val intent = Intent(context, SleepActivity::class.java)
+                    context.startActivity(intent)
+                    (context as ComponentActivity).finish()
+                } else {
+                    // 유효한 숫자가 아닌 경우 처리 (예: 사용자에게 알림)
                 }
-                val intent = Intent(context, SleepActivity::class.java)
-                context.startActivity(intent)
-                (context as ComponentActivity).finish()
             },
             modifier = Modifier
                 .width(140.dp) // 버튼 너비 조정
@@ -120,4 +125,3 @@ fun InputScreen(sleepViewModel: SleepViewModel) {
         }
     }
 }
-
