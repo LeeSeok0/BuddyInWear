@@ -25,11 +25,12 @@ import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import com.woosuk.wearinbuddy.presentation.Activity.activity.WorkOutActivity
-import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
+import com.woosuk.wearinbuddy.presentation.ViewModel.ActivityViewModel
 
 class InputActivity : ComponentActivity() {
 
     private val sleepViewModel: SleepViewModel by viewModels()
+    private val activityViewModel: ActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

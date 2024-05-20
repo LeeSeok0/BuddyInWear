@@ -1,3 +1,6 @@
+package com.woosuk.wearinbuddy.presentation.ViewModel
+
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woosuk.wearinbuddy.presentation.api.RetrofitInstance
@@ -7,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.await
-import java.time.LocalTime
 
 class ActivityViewModel : ViewModel() {
 
@@ -22,9 +24,10 @@ class ActivityViewModel : ViewModel() {
                     val activityResponse = response[0]
                     _activityData.value = ActivityData(
                         activityResponse.id,
-                        activityResponse.steps,
-                        activityResponse.calories
+                        activityResponse.activity_steps,
+                        activityResponse.activity_cal_total
                     )
+                    Log.d("aaaaaaa", "fetchActivityData...........")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

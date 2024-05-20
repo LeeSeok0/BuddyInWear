@@ -1,7 +1,6 @@
 package com.woosuk.wearinbuddy.presentation.Activity.activity
 
-
-import ActivityViewModel
+import SleepViewModel
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import com.woosuk.wearinbuddy.presentation.ViewModel.ActivityViewModel
+import java.time.LocalTime
 
 class WorkOutActivity : ComponentActivity() {
 
@@ -34,7 +35,7 @@ class WorkOutActivity : ComponentActivity() {
         val userId = sharedPreferences.getInt("user_id", -1)
 
         if (userId != -1) {
-            Log.d("WorkOutActivity", "Fetching activity data for user ID: $userId")
+            Log.d("WorkOutActivity", "Fetching sleep data for user ID: $userId")
             activityViewModel.fetchActivityData(userId)
         } else {
             Log.e("WorkOutActivity", "User ID not found in SharedPreferences")
@@ -47,7 +48,7 @@ class WorkOutActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(Color.Black)
                 ) {
-                    WorkOutScreen(activityViewModel)
+                    SleepScreen(activityViewModel)
                 }
             }
         }
@@ -55,78 +56,69 @@ class WorkOutActivity : ComponentActivity() {
 }
 
 @Composable
-fun WorkOutScreen(viewModel: ActivityViewModel) {
+fun SleepScreen(viewModel: ActivityViewModel) {
     val activityData by viewModel.activityData.collectAsState()
 
-    Log.d("WorkOutScreen", "Activity data: $activityData")
+    Log.d("WorkOutScreen", "Sleep data: $activityData")
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
+        contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            CircularProgress(
-                progress = activityData.steps / 10000f, // 예시로 목표 걸음수 10000 걸음으로 설정
-                modifier = Modifier.size(150.dp),
-                color = Color.Green,
-                strokeWidth = 8f
-            )
-        }
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            CircularProgress(
-                progress = activityData.calories.toFloat() / 500f, // 예시로 목표 칼로리 500 칼로리로 설정
-                modifier = Modifier.size(150.dp),
-                color = Color.Red,
-                strokeWidth = 8f
-            )
-        }
+        CircularProgress(
+            steps = activityData.steps,
+            modifier = Modifier.size(200.dp),
+            strokeWidth = 11f,
+            color = Color.White
+        )
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
+            .padding(13.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "운동량 정보",
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 15.sp,
+            fontSize = 14.sp,
             color = Color.White,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "소모한 칼로리 : ${activityData.calories} kcal",
+            text = "걸음 수 : ${activityData.steps}",
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 17.sp,
+            fontSize = 13.sp,
             color = Color.White,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "걸음수 : ${activityData.steps}",
+            text = "칼로리 소모량 : ${activityData.calories} kcal",
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 17.sp,
+            fontSize = 13.sp,
             color = Color.White,
         )
     }
 }
 @Composable
 fun CircularProgress(
-    progress: Float,
+    steps: Int,
     modifier: Modifier = Modifier,
-    color: Color = Color.White,
-    strokeWidth: Float = 8f
+    color: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.White,
+    strokeWidth: Float = 8f,
+    goal: Int = 10000 // 목표 걸음수
 ) {
     androidx.compose.foundation.Canvas(modifier = modifier) {
         val radius = (size.minDimension - strokeWidth) / 2
         val centerX = size.width / 2
         val centerY = size.height / 2
 
+        // 목표 걸음수 대비 현재 걸음수의 비율을 계산하여 진행률을 설정합니다.
+        val progress = (steps / goal.toFloat()).coerceIn(0f, 1f)
         val startAngle = -90f
         val sweepAngle = progress * 360
 
