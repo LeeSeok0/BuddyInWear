@@ -47,9 +47,9 @@ class LoadingActivity : ComponentActivity() {
 fun LoadingIndicatorWithImage() {
     // List of drawable resource IDs with corresponding texts
     val loadingData = listOf(
-        Pair(R.drawable.love, "Waiting for you..."),
-        Pair(R.drawable.seeyou1, "Ready when you are..."),
-        Pair(R.drawable.two0, "Let's get started!")
+        Pair(R.drawable.slime, "오늘도 좋은 하루~"),
+        Pair(R.drawable.greenslime, "당신의 먹구름 out~"),
+        Pair(R.drawable.slime, "마음속 비는 모두 안녕~")
     )
     // Randomly select an image and text
     val randomLoadingData = loadingData[Random.nextInt(loadingData.size)]
