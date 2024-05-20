@@ -2,6 +2,7 @@ package com.woosuk.wearinbuddy.presentation.Activity.activity
 
 import SleepViewModel
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import com.woosuk.wearinbuddy.presentation.Activity.CongratulationActivity
 import com.woosuk.wearinbuddy.presentation.ViewModel.ActivityViewModel
 import java.time.LocalTime
 
@@ -48,7 +50,7 @@ class WorkOutActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(Color.Black)
                 ) {
-                    SleepScreen(activityViewModel)
+                    WorkOutScreen(activityViewModel,this@WorkOutActivity)
                 }
             }
         }
@@ -56,10 +58,16 @@ class WorkOutActivity : ComponentActivity() {
 }
 
 @Composable
-fun SleepScreen(viewModel: ActivityViewModel) {
+fun WorkOutScreen(viewModel: ActivityViewModel, activity:ComponentActivity) {
     val activityData by viewModel.activityData.collectAsState()
 
     Log.d("WorkOutScreen", "Sleep data: $activityData")
+
+    // 목표량을 달성했는지 확인
+    if (activityData.steps >= 10000 || activityData.calories >= 500) {
+        // CongratulationActivity로 이동
+        activity.startActivity(Intent(activity, CongratulationActivity::class.java))
+    }
 
     Box(
         modifier = Modifier

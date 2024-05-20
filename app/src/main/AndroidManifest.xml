@@ -49,6 +49,11 @@
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".presentation.Activity.CongratulationActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <uses-library
             android:name="com.google.android.wearable"
