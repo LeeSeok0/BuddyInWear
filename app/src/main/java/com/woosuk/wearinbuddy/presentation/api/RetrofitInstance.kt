@@ -1,8 +1,8 @@
-package com.woosuk.wearinbuddy.presentation
+package com.woosuk.wearinbuddy.presentation.api
 
-import LocalTimeDeserializer
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.woosuk.wearinbuddy.presentation.util.LocalTimeDeserializer
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,4 +1,4 @@
-package com.woosuk.wearinbuddy.presentation.Activity
+package com.woosuk.wearinbuddy.presentation.Activity.util
 
 import SleepViewModel
 import android.content.Context
@@ -19,13 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
 
 class InputActivity : ComponentActivity() {
 

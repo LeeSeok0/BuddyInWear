@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.woosuk.wearinbuddy.presentation.Activity
+package com.woosuk.wearinbuddy.presentation.Activity.activity
 
 import android.content.Context
 import android.content.Intent
@@ -34,6 +34,9 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.woosuk.wearinbuddy.R
+import com.woosuk.wearinbuddy.presentation.Activity.DepressedActivity
+import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
+import com.woosuk.wearinbuddy.presentation.Activity.util.InputActivity
 
 class MainActivity() : ComponentActivity(), Parcelable {
     constructor(parcel: Parcel) : this() {

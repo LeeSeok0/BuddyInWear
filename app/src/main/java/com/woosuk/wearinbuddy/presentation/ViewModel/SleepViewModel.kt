@@ -1,8 +1,8 @@
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woosuk.wearinbuddy.presentation.RetrofitInstance
-import com.woosuk.wearinbuddy.presentation.SleepData
-import com.woosuk.wearinbuddy.presentation.SleepRequest
+import com.woosuk.wearinbuddy.presentation.api.RetrofitInstance
+import com.woosuk.wearinbuddy.presentation.data.SleepData
+import com.woosuk.wearinbuddy.presentation.data.SleepRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

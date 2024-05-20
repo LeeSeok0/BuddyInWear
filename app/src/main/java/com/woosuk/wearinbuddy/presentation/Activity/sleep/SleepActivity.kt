@@ -1,4 +1,4 @@
-package com.woosuk.wearinbuddy.presentation.Activity
+package com.woosuk.wearinbuddy.presentation.Activity.sleep
 
 import SleepViewModel
 import android.content.Context

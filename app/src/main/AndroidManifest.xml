@@ -17,7 +17,7 @@
         >
 
         <activity
-            android:name=".presentation.Activity.LoadingActivity"
+            android:name=".presentation.Activity.util.LoadingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.Activity.MainActivity"
+            android:name=".presentation.Activity.activity.MainActivity"
             android:exported="true" />
 
         <activity
@@ -35,12 +35,12 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".presentation.Activity.SleepActivity"
+            android:name=".presentation.Activity.sleep.SleepActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".presentation.Activity.InputActivity"
+            android:name=".presentation.Activity.util.InputActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

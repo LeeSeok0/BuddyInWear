@@ -1,4 +1,4 @@
-package com.woosuk.wearinbuddy.presentation
+package com.woosuk.wearinbuddy.presentation.data
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
