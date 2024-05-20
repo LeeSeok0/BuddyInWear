@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.Activity.activity.MainActivity"
+            android:name=".presentation.Activity.MainActivity"
             android:exported="true" />
 
         <activity
@@ -41,6 +41,11 @@
         </activity>
         <activity
             android:name=".presentation.Activity.util.InputActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".presentation.Activity.activity.WorkOutActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

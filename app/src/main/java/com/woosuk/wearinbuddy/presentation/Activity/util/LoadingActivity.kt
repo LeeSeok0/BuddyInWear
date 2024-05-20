@@ -24,7 +24,7 @@ import androidx.wear.compose.material.CircularProgressIndicator
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.woosuk.wearinbuddy.R
-import com.woosuk.wearinbuddy.presentation.Activity.activity.MainActivity
+import com.woosuk.wearinbuddy.presentation.Activity.MainActivity
 import kotlin.random.Random  // 이 위치로 옮겨주세요.
 
 class LoadingActivity : ComponentActivity() {

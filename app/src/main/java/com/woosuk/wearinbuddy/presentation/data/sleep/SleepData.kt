@@ -1,4 +1,4 @@
-package com.woosuk.wearinbuddy.presentation.data
+package com.woosuk.wearinbuddy.presentation.data.sleep
 
 
 import java.time.LocalTime

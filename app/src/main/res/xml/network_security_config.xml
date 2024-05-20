@@ -3,6 +3,6 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">your-domain.com</domain>
         <!-- IP 주소를 명시적으로 허용할 수도 있습니다 -->
-        <domain includeSubdomains="true">43.203.200.213</domain>
+        <domain includeSubdomains="true">43.202.62.173</domain>
     </domain-config>
 </network-security-config>

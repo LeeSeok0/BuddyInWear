@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.woosuk.wearinbuddy.presentation.Activity.activity
+package com.woosuk.wearinbuddy.presentation.Activity
 
 import android.content.Context
 import android.content.Intent
@@ -34,13 +34,13 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.rememberScalingLazyListState
 import com.woosuk.wearinbuddy.R
-import com.woosuk.wearinbuddy.presentation.Activity.DepressedActivity
 import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
 import com.woosuk.wearinbuddy.presentation.Activity.util.InputActivity
+import com.woosuk.wearinbuddy.presentation.Activity.activity.WorkOutActivity
+import com.woosuk.wearinbuddy.presentation.Activity.DepressedActivity
 
 class MainActivity() : ComponentActivity(), Parcelable {
-    constructor(parcel: Parcel) : this() {
-    }
+    constructor(parcel: Parcel) : this()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,22 +95,13 @@ fun MainScreen() {
                     backgroundImagePainter = painterResource(id = images[index % images.size])
                 ),
                 onClick = {
-                    // '우울 정도 분석' 선택 시 DepressedActivity로 이동
-                    if (items[index] == "우울 정도 분석") {
-                        val intent = Intent(context, DepressedActivity::class.java)
-                        context.startActivity(intent)
-                    } else if (items[index] == "수면패턴") {
-                        // 수면패턴 선택 시 InputActivity 또는 SleepActivity로 이동
-                        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-                        val savedValue = sharedPreferences.getString("user_input", null)
-
-                        if (savedValue.isNullOrEmpty()) {
-                            // 저장된 값이 없으면 InputActivity로 이동
-                            val intent = Intent(context, InputActivity::class.java)
+                    when (items[index]) {
+                        "우울 정도 분석" -> {
+                            val intent = Intent(context, DepressedActivity::class.java)
                             context.startActivity(intent)
-                        } else {
-                            // 저장된 값이 있으면 SleepActivity로 이동
-                            val intent = Intent(context, SleepActivity::class.java)
+                        }
+                        "오늘의 운동량", "수면패턴" -> {
+                            val intent = Intent(context, InputActivity::class.java)
                             context.startActivity(intent)
                         }
                     }

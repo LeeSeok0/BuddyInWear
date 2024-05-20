@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import com.woosuk.wearinbuddy.presentation.Activity.activity.WorkOutActivity
 import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
 
 class InputActivity : ComponentActivity() {
@@ -44,13 +45,13 @@ class InputActivity : ComponentActivity() {
                             .fillMaxSize()
                             .background(Color.Black)
                     ) {
-                        InputScreen(sleepViewModel)
+                        InputScreen()
                     }
                 }
             }
         } else {
             // 이미 저장된 값이 있는 경우 SleepActivity로 이동
-            val intent = Intent(this, SleepActivity::class.java)
+            val intent = Intent(this, WorkOutActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -58,7 +59,7 @@ class InputActivity : ComponentActivity() {
 }
 
 @Composable
-fun InputScreen(sleepViewModel: SleepViewModel) {
+fun InputScreen() {
     val context = LocalContext.current
     var input by remember { mutableStateOf("") }
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -109,7 +110,7 @@ fun InputScreen(sleepViewModel: SleepViewModel) {
                         putInt("user_id", userId)
                         apply()
                     }
-                    val intent = Intent(context, SleepActivity::class.java)
+                    val intent = Intent(context, WorkOutActivity::class.java)
                     context.startActivity(intent)
                     (context as ComponentActivity).finish()
                 } else {

@@ -1,4 +1,4 @@
-package com.woosuk.wearinbuddy.presentation.data
+package com.woosuk.wearinbuddy.presentation.data.sleep
 
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
