@@ -9,34 +9,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.ContextCompat.startActivity
-import androidx.wear.compose.material.Button
-import androidx.wear.compose.material.Chip
-import androidx.wear.compose.material.ChipDefaults
-import androidx.wear.compose.material.ScalingLazyColumn
-import androidx.wear.compose.material.Text
-import androidx.wear.compose.material.rememberScalingLazyListState
+import androidx.wear.compose.material.*
 import com.woosuk.wearinbuddy.R
-import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
 import com.woosuk.wearinbuddy.presentation.Activity.util.InputActivity
-import com.woosuk.wearinbuddy.presentation.Activity.activity.WorkOutActivity
-import com.woosuk.wearinbuddy.presentation.Activity.DepressedActivity
 
 class MainActivity() : ComponentActivity(), Parcelable {
     constructor(parcel: Parcel) : this()
@@ -71,67 +59,79 @@ fun MainScreen() {
     val context = LocalContext.current
     val items = listOf("우울 정도 분석", "오늘의 운동량", "수면패턴")
     val images = listOf(R.drawable.wade, R.drawable.drr, R.drawable.sleepimg)
+    val state = rememberScalingLazyListState()
 
-    ScalingLazyColumn(
-        state = rememberScalingLazyListState(),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        items(items.size) { index ->
-            Chip(
-                label = {
-                    Text(
-                        text = items[index],
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        style = TextStyle(fontSize = 18.sp)
-                    )
-                },
-                colors = ChipDefaults.imageBackgroundChipColors(
-                    backgroundImagePainter = painterResource(id = images[index % images.size])
-                ),
-                onClick = {
-                    when (items[index]) {
-                        "우울 정도 분석" -> {
-                            val intent = Intent(context, DepressedActivity::class.java)
-                            context.startActivity(intent)
-                        }
-                        "오늘의 운동량" -> {
-                            val intent = Intent(context, InputActivity::class.java).apply {
-                                putExtra("origin_activity", "workout")
-                            }
-                            context.startActivity(intent)
-                        }
-                        "수면패턴" -> {
-                            val intent = Intent(context, InputActivity::class.java).apply {
-                                putExtra("origin_activity", "sleep")
-                            }
-                            context.startActivity(intent)
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .padding(0.5.dp)
-                    .height(56.dp)
-            )
+    Scaffold(
+        positionIndicator = {
+            PositionIndicator(scalingLazyListState = state)
         }
-    }
-    Button(
-        onClick = {
-            val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-            with(sharedPreferences.edit()) {
-                remove("hash_Code")
-                apply()
-            }
-        },
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
     ) {
-        Text(text = "값 삭제", color = Color.White)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black)
+        ) {
+            ScalingLazyColumn(
+                state = state,
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(items.size) { index ->
+                    Chip(
+                        label = {
+                            Text(
+                                text = items[index],
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                textAlign = TextAlign.Center,
+                                style = TextStyle(fontSize = 14.sp)  // 텍스트 크기를 줄입니다.
+                            )
+                        },
+                        colors = ChipDefaults.imageBackgroundChipColors(
+                            backgroundImagePainter = painterResource(id = images[index % images.size])
+                        ),
+                        onClick = {
+                            when (items[index]) {
+                                "우울 정도 분석" -> {
+                                    val intent = Intent(context, DepressedActivity::class.java)
+                                    context.startActivity(intent)
+                                }
+                                "오늘의 운동량" -> {
+                                    val intent = Intent(context, InputActivity::class.java).apply {
+                                        putExtra("origin_activity", "workout")
+                                    }
+                                    context.startActivity(intent)
+                                }
+                                "수면패턴" -> {
+                                    val intent = Intent(context, InputActivity::class.java).apply {
+                                        putExtra("origin_activity", "sleep")
+                                    }
+                                    context.startActivity(intent)
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .padding(0.5.dp)
+                            .height(48.dp)  // 칩의 높이를 줄입니다.
+                    )
+                }
+            }
+        }
+
+        Button(
+            onClick = {
+                val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                with(sharedPreferences.edit()) {
+                    remove("hash_Code")
+                    apply()
+                }
+            },
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
+            Text(text = "값 삭제", color = Color.White)
+        }
     }
 }
 
