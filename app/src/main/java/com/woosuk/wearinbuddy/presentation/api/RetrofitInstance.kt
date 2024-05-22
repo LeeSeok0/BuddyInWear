@@ -10,7 +10,7 @@ import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
-    private const val BASE_URL = "http://43.203.220.46:8081/"
+    private const val BASE_URL = "http://13.124.158.39:8081/"
 
     private val gson: Gson = GsonBuilder()
         .registerTypeAdapter(LocalTime::class.java, LocalTimeDeserializer())

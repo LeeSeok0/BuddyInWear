@@ -4,6 +4,7 @@ import SleepViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -25,6 +26,7 @@ import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import com.woosuk.wearinbuddy.presentation.Activity.activity.WorkOutActivity
+import com.woosuk.wearinbuddy.presentation.Activity.sleep.SleepActivity
 import com.woosuk.wearinbuddy.presentation.ViewModel.ActivityViewModel
 
 class InputActivity : ComponentActivity() {
@@ -36,7 +38,7 @@ class InputActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val savedValue = sharedPreferences.getString("user_input", null)
+        val savedValue = sharedPreferences.getString("hash_Code", null)
 
         if (savedValue.isNullOrEmpty()) {
             setContent {
@@ -84,7 +86,7 @@ fun InputScreen() {
             onValueChange = {
                 if (it.length <= 6) input = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             textStyle = androidx.compose.ui.text.TextStyle(
                 textAlign = TextAlign.Center,
                 color = Color.White,
@@ -105,17 +107,17 @@ fun InputScreen() {
         Spacer(modifier = Modifier.height(8.dp)) // 텍스트 필드와 버튼 사이의 간격 조정
         Button(
             onClick = {
-                val userId = input.toIntOrNull()
-                if (userId != null) {
+                val hashCode = input.toString()
+                if (hashCode != null) {
                     with(sharedPreferences.edit()) {
-                        putInt("user_id", userId)
+                        putString("hash_Code", hashCode)
                         apply()
                     }
-                    val intent = Intent(context, WorkOutActivity::class.java)
+                    val intent = Intent(context, SleepActivity::class.java)
                     context.startActivity(intent)
                     (context as ComponentActivity).finish()
                 } else {
-                    // 유효한 숫자가 아닌 경우 처리 (예: 사용자에게 알림)
+                    Toast.makeText(context, "유효한 해시코드가 아닙니다.", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier

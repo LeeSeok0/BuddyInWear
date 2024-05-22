@@ -11,17 +11,17 @@ import java.time.LocalTime
 
 class SleepViewModel : ViewModel() {
 
-    private val _sleepData = MutableStateFlow(SleepData(0, 0.0, LocalTime.MIN, LocalTime.MIN))
+    private val _sleepData = MutableStateFlow(SleepData("", 0.0, LocalTime.MIN, LocalTime.MIN))
     val sleepData: StateFlow<SleepData> = _sleepData
 
-    fun fetchSleepData(userId: Int) {
+    fun fetchSleepData(hashcode: String) {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.getSleepData(SleepRequest(userId)).await()
+                val response = RetrofitInstance.api.getSleepData(SleepRequest(hashcode)).await()
                 if (response.isNotEmpty()) {
                     val sleepResponse = response[0]
                     _sleepData.value = SleepData(
-                        sleepResponse.id,
+                        sleepResponse.hashcode,
                         sleepResponse.sleep_duration,
                         sleepResponse.sleep_bedtime_start,
                         sleepResponse.sleep_bedtime_end

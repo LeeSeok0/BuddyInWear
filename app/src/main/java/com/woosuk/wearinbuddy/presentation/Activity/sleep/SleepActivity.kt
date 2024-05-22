@@ -31,11 +31,13 @@ class SleepActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val userId = sharedPreferences.getInt("user_id", -1)
+        val hashCode = sharedPreferences.getString("hash_Code", "")
 
-        if (userId != -1) {
-            Log.d("SleepActivity", "Fetching sleep data for user ID: $userId")
-            sleepViewModel.fetchSleepData(userId)
+        if (hashCode != "") {
+            Log.d("SleepActivity", "Fetching sleep data for user ID: $hashCode")
+            if (hashCode != null) {
+                sleepViewModel.fetchSleepData(hashCode)
+            }
         } else {
             Log.e("SleepActivity", "User ID not found in SharedPreferences")
         }
@@ -66,13 +68,13 @@ fun SleepScreen(viewModel: SleepViewModel) {
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgress(
-            sleepStartTime = sleepData.sleepBedtimeStart,
-            sleepEndTime = sleepData.sleepBedtimeEnd,
-            modifier = Modifier.size(200.dp),
-            strokeWidth = 11f,
-            color = Color.White
-        )
+//        CircularProgress(
+//            sleepStartTime = sleepData.sleepBedtimeStart,
+//            sleepEndTime = sleepData.sleepBedtimeEnd,
+//            modifier = Modifier.size(200.dp),
+//            strokeWidth = 11f,
+//            color = Color.White
+//        )
     }
 
     Column(
@@ -108,30 +110,30 @@ fun SleepScreen(viewModel: SleepViewModel) {
         )
     }
 }
-@Composable
-fun CircularProgress(
-    sleepStartTime: LocalTime,
-    sleepEndTime: LocalTime,
-    modifier: Modifier = Modifier,
-    color: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.White,
-    strokeWidth: Float = 8f
-) {
-    androidx.compose.foundation.Canvas(modifier = modifier) {
-        val radius = (size.minDimension - strokeWidth) / 2
-        val centerX = size.width / 2
-        val centerY = size.height / 2
-
-        val startAngle = (sleepStartTime.toSecondOfDay() / 86400f) * 360 - 90
-        val endAngle = (sleepEndTime.toSecondOfDay() / 86400f) * 360 - 90
-        val sweepAngle = if (endAngle >= startAngle) endAngle - startAngle else 360 - (startAngle - endAngle)
-
-        drawArc(
-            color = color,
-            startAngle = startAngle,
-            sweepAngle = sweepAngle,
-            useCenter = false,
-            style = Stroke(strokeWidth, cap = StrokeCap.Round)
-        )
-    }
-}
+//@Composable
+//fun CircularProgress(
+//    sleepStartTime: LocalTime,
+//    sleepEndTime: LocalTime,
+//    modifier: Modifier = Modifier,
+//    color: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.White,
+//    strokeWidth: Float = 8f
+//) {
+//    androidx.compose.foundation.Canvas(modifier = modifier) {
+//        val radius = (size.minDimension - strokeWidth) / 2
+//        val centerX = size.width / 2
+//        val centerY = size.height / 2
+//
+//        val startAngle = (sleepStartTime.toSecondOfDay() / 86400f) * 360 - 90
+//        val endAngle = (sleepEndTime.toSecondOfDay() / 86400f) * 360 - 90
+//        val sweepAngle = if (endAngle >= startAngle) endAngle - startAngle else 360 - (startAngle - endAngle)
+//
+//        drawArc(
+//            color = color,
+//            startAngle = startAngle,
+//            sweepAngle = sweepAngle,
+//            useCenter = false,
+//            style = Stroke(strokeWidth, cap = StrokeCap.Round)
+//        )
+//    }
+//}
 

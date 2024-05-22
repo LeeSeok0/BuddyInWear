@@ -13,17 +13,17 @@ import retrofit2.await
 
 class ActivityViewModel : ViewModel() {
 
-    private val _activityData = MutableStateFlow(ActivityData(0,  0, 0.0))
+    private val _activityData = MutableStateFlow(ActivityData("",  0, 0.0))
     val activityData: StateFlow<ActivityData> = _activityData
 
-    fun fetchActivityData(userId: Int) {
+    fun fetchActivityData(hashcode:String) {
         viewModelScope.launch {
             try {
-                val response = RetrofitInstance.api.getActivityData(ActivityRequest(userId)).await()
+                val response = RetrofitInstance.api.getActivityData(ActivityRequest(hashcode)).await()
                 if (response.isNotEmpty()) {
                     val activityResponse = response[0]
                     _activityData.value = ActivityData(
-                        activityResponse.id,
+                        activityResponse.hashcode,
                         activityResponse.activity_steps,
                         activityResponse.activity_cal_total
                     )

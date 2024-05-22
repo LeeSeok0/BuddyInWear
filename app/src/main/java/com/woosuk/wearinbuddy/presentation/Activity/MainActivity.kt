@@ -70,8 +70,8 @@ class MainActivity() : ComponentActivity(), Parcelable {
 @Composable
 fun MainScreen() {
     val context = LocalContext.current
-    val items = listOf("우울 정도 분석", "오늘의 운동량", "수면패턴", "우울글귀")
-    val images = listOf(R.drawable.wade, R.drawable.drr, R.drawable.sleepimg, R.drawable.ember)
+    val items = listOf("우울 정도 분석", "오늘의 운동량", "수면패턴")
+    val images = listOf(R.drawable.wade, R.drawable.drr, R.drawable.sleepimg)
 
     ScalingLazyColumn(
         state = rememberScalingLazyListState(),
@@ -116,7 +116,7 @@ fun MainScreen() {
         onClick = {
             val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
             with(sharedPreferences.edit()) {
-                remove("user_input")
+                remove("hash_Code")
                 apply()
             }
         },

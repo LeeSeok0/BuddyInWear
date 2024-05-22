@@ -6,7 +6,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 data class SleepResponse(
-    val id: Int,
+    val hashcode: String,
     val sleep_duration: Double,
     val sleep_bedtime_start: LocalTime,
     val sleep_bedtime_end: LocalTime

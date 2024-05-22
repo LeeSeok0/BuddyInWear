@@ -34,11 +34,13 @@ class WorkOutActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val userId = sharedPreferences.getInt("user_id", -1)
+        val hashCode = sharedPreferences.getString("hash_Code", "")
 
-        if (userId != -1) {
-            Log.d("WorkOutActivity", "Fetching sleep data for user ID: $userId")
-            activityViewModel.fetchActivityData(userId)
+        if (hashCode != "") {
+            Log.d("WorkOutActivity", "Fetching sleep data for user ID: $hashCode")
+            if (hashCode != null) {
+                activityViewModel.fetchActivityData(hashCode)
+            }
         } else {
             Log.e("WorkOutActivity", "User ID not found in SharedPreferences")
         }
@@ -78,7 +80,7 @@ fun WorkOutScreen(viewModel: ActivityViewModel, activity:ComponentActivity) {
         CircularProgress(
             steps = activityData.steps,
             modifier = Modifier.size(200.dp),
-            strokeWidth = 11f,
+            strokeWidth = 15f,
             color = Color.White
         )
     }
