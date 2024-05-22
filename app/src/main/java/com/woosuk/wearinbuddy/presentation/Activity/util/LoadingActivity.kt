@@ -45,14 +45,6 @@ class LoadingActivity : ComponentActivity() {
 
 @Composable
 fun LoadingIndicatorWithImage() {
-    // List of drawable resource IDs with corresponding texts
-    val loadingData = listOf(
-        Pair(R.drawable.slime, "오늘도 좋은 하루~"),
-        Pair(R.drawable.greenslime, "당신의 먹구름 out~"),
-        Pair(R.drawable.slime, "마음속 비는 모두 안녕~")
-    )
-    // Randomly select an image and text
-    val randomLoadingData = loadingData[Random.nextInt(loadingData.size)]
 
     Box(
         contentAlignment = Alignment.Center,
@@ -63,19 +55,9 @@ fun LoadingIndicatorWithImage() {
             strokeWidth = 4.dp
         )
         Image(
-            painter = painterResource(id = randomLoadingData.first),
+            painter = painterResource(id=R.drawable.slime),
             contentDescription = "Center Image",
             modifier = Modifier.matchParentSize()
-        )
-        Text(
-            randomLoadingData.second,
-            color = Color.White,
-            fontSize = 14.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 20.dp)
-                .background(Color.Black.copy(alpha = 0.5f))
         )
     }
 }

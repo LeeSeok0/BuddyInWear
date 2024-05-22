@@ -70,7 +70,7 @@ fun WorkOutScreen(viewModel: ActivityViewModel, activity:ComponentActivity) {
     Log.d("WorkOutScreen", "Sleep data: $activityData")
 
     // 목표량을 달성했는지 확인
-    if (activityData.steps >= 10000 || activityData.calories >= 500) {
+    if (activityData.steps >= 6000) {
         // CongratulationActivity로 이동
         activity.startActivity(Intent(activity, CongratulationActivity::class.java))
     }
@@ -115,14 +115,14 @@ fun WorkOutScreen(viewModel: ActivityViewModel, activity:ComponentActivity) {
         Text(
             text = "걸음 수 : ${activityData.steps}",
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 13.sp,
+            fontSize = 11.sp,
             color = Color.White,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "칼로리 소모량 : ${activityData.calories} kcal",
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 13.sp,
+            fontSize = 11.sp,
             color = Color.White,
         )
     }
@@ -133,7 +133,7 @@ fun CircularProgress(
     modifier: Modifier = Modifier,
     color: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.White,
     strokeWidth: Float = 8f,
-    goal: Int = 10000 // 목표 걸음수
+    goal: Int = 6000 // 목표 걸음수
 ) {
     androidx.compose.foundation.Canvas(modifier = modifier) {
         val radius = (size.minDimension - strokeWidth) / 2

@@ -40,13 +40,6 @@ class CongratulationActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = "축하합니다!",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = Color.White,
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
                     AndroidView(
                         factory = {
                             LottieAnimationView(it).apply {
