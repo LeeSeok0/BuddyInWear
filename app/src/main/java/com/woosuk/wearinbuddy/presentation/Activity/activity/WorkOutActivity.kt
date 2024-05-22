@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -18,10 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
+import com.woosuk.wearinbuddy.R
 import com.woosuk.wearinbuddy.presentation.Activity.CongratulationActivity
 import com.woosuk.wearinbuddy.presentation.ViewModel.ActivityViewModel
 import java.time.LocalTime
@@ -92,6 +96,15 @@ fun WorkOutScreen(viewModel: ActivityViewModel, activity:ComponentActivity) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.running),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(40.dp)
+                .fillMaxWidth()
+                .padding(bottom = 5.dp)
+        )
         Text(
             text = "운동량 정보",
             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,

@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package com.woosuk.wearinbuddy.presentation.Activity
 
 import android.content.Context
@@ -19,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.text.style.TextAlign
@@ -27,6 +24,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat.startActivity
 import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.Chip
 import androidx.wear.compose.material.ChipDefaults
@@ -100,8 +99,16 @@ fun MainScreen() {
                             val intent = Intent(context, DepressedActivity::class.java)
                             context.startActivity(intent)
                         }
-                        "오늘의 운동량", "수면패턴" -> {
-                            val intent = Intent(context, InputActivity::class.java)
+                        "오늘의 운동량" -> {
+                            val intent = Intent(context, InputActivity::class.java).apply {
+                                putExtra("origin_activity", "workout")
+                            }
+                            context.startActivity(intent)
+                        }
+                        "수면패턴" -> {
+                            val intent = Intent(context, InputActivity::class.java).apply {
+                                putExtra("origin_activity", "sleep")
+                            }
                             context.startActivity(intent)
                         }
                     }

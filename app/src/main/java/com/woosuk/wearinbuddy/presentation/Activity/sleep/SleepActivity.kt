@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -15,13 +16,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
-import java.time.LocalTime
+import com.woosuk.wearinbuddy.R
 
 class SleepActivity : ComponentActivity() {
 
@@ -68,46 +69,55 @@ fun SleepScreen(viewModel: SleepViewModel) {
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-//        CircularProgress(
-//            sleepStartTime = sleepData.sleepBedtimeStart,
-//            sleepEndTime = sleepData.sleepBedtimeEnd,
-//            modifier = Modifier.size(200.dp),
-//            strokeWidth = 11f,
-//            color = Color.White
-//        )
-    }
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "수면시간",
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 15.sp,
-            color = Color.White,
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = "${sleepData.sleepDuration} 시간",
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-            fontSize = 20.sp,
-            color = Color.White,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "수면 시작 시간: ${sleepData.sleepBedtimeStart}",
-            fontSize = 10.sp,
-            color = Color.Gray,
-        )
-        Text(
-            text = "수면 종료 시간: ${sleepData.sleepBedtimeEnd}",
-            fontSize = 10.sp,
-            color = Color.Gray,
-        )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.moon),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(40.dp)
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp)
+                )
+                Text(
+                    text = "수면시간",
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    fontSize = 15.sp,
+                    color = Color.White,
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "${sleepData.sleepDuration} 시간",
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "수면 시작 시간: ${sleepData.sleepBedtimeStart}",
+                    fontSize = 10.sp,
+                    color = Color.Gray,
+                )
+                Text(
+                    text = "수면 종료 시간: ${sleepData.sleepBedtimeEnd}",
+                    fontSize = 10.sp,
+                    color = Color.Gray,
+                )
+            }
+        }
     }
 }
 //@Composable

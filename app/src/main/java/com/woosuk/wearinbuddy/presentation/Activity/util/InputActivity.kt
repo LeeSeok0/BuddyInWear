@@ -39,8 +39,19 @@ class InputActivity : ComponentActivity() {
 
         val sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val savedValue = sharedPreferences.getString("hash_Code", null)
+        val originActivity = intent.getStringExtra("origin_activity")
 
-        if (savedValue.isNullOrEmpty()) {
+        if (!savedValue.isNullOrEmpty() && !originActivity.isNullOrEmpty()) {
+            val intent = when (originActivity) {
+                "sleep" -> Intent(this, SleepActivity::class.java)
+                "workout" -> Intent(this, WorkOutActivity::class.java)
+                else -> null
+            }
+            intent?.let {
+                startActivity(it)
+                finish()
+            }
+        } else {
             setContent {
                 Scaffold {
                     Box(
@@ -48,21 +59,16 @@ class InputActivity : ComponentActivity() {
                             .fillMaxSize()
                             .background(Color.Black)
                     ) {
-                        InputScreen()
+                        InputScreen(originActivity)
                     }
                 }
             }
-        } else {
-            // 이미 저장된 값이 있는 경우 SleepActivity로 이동
-            val intent = Intent(this, WorkOutActivity::class.java)
-            startActivity(intent)
-            finish()
         }
     }
 }
 
 @Composable
-fun InputScreen() {
+fun InputScreen(originActivity: String?) {
     val context = LocalContext.current
     var input by remember { mutableStateOf("") }
     val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
@@ -108,14 +114,20 @@ fun InputScreen() {
         Button(
             onClick = {
                 val hashCode = input.toString()
-                if (hashCode != null) {
+                if (hashCode.isNotEmpty()) {
                     with(sharedPreferences.edit()) {
                         putString("hash_Code", hashCode)
                         apply()
                     }
-                    val intent = Intent(context, SleepActivity::class.java)
-                    context.startActivity(intent)
-                    (context as ComponentActivity).finish()
+                    val intent = when (originActivity) {
+                        "sleep" -> Intent(context, SleepActivity::class.java)
+                        "workout" -> Intent(context, WorkOutActivity::class.java)
+                        else -> null
+                    }
+                    intent?.let {
+                        context.startActivity(it)
+                        (context as ComponentActivity).finish()
+                    }
                 } else {
                     Toast.makeText(context, "유효한 해시코드가 아닙니다.", Toast.LENGTH_SHORT).show()
                 }
